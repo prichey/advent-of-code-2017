@@ -12,11 +12,10 @@ function distanceToOne(num) {
     numberCoords = ringmaxCoords;
   } else {
     let [pointerNum, pointerCoords] = [ringmax, ringmaxCoords];
-    let numMoves = 0;
-    let moveIndex = 0;
+    let [numMoves, moveIndex] = [0, 0];
 
     const movesPerSide = Math.pow(ringmax, 0.5) - 1;
-    const moves = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+    const moves = [[-1, 0], [0, 1], [1, 0], [0, -1]]; // left, up, right, down
 
     while (pointerNum > num) {
       if (numMoves >= movesPerSide) {

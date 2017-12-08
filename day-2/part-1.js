@@ -1,6 +1,7 @@
 function getChecksum(input) {
   // just because it could be a 1-liner 😅
   return input
+    .trim()
     .split('\n')
     .map(row => {
       const cols = row.split('\t').map(strNum => parseInt(strNum)); // convert to an array of ints
