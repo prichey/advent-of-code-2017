@@ -61,20 +61,4 @@ function addArrays(a, b) {
   return sum;
 }
 
-// function generateCoordsByIndex(index) {
-//   const moves = [[1, 0], [0, 1], [-1, 0], [0, -1]]; // right, up, left, down
-//   let moveIndex = 0;
-//   let ringNum = 1;
-//   let [pointerIndex, pointerCoords] = [0, [0, 0]];
-//
-//   while (index > pointerIndex) {
-//     pointerCoords = addArrays(pointerCoords, moves[moveIndex]);
-//     pointerIndex++;
-//     moveIndex = getNextMoveIndex(moveIndex, pointerCoords, ringNum);
-//     if (moveIndex === 0) ringNum++;
-//   }
-//
-//   return pointerCoords;
-// }
-
 module.exports = getNextValueLargerThanInput;
