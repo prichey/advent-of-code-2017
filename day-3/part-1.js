@@ -1,59 +1,37 @@
-function distanceToOne(num) {
-  if (num < 1) return null;
-  if (num === 1) return 0;
-
-  const ringNum = getRingNum(num);
-  const ringmax = Math.pow(2 * ringNum + 1, 2); // max number in ring
-  const ringmaxCoords = [ringNum, -ringNum];
-  const maxNumDifference = ringmax - num;
-
-  let numberCoords;
-  if (num === ringmax) {
-    numberCoords = ringmaxCoords;
-  } else {
-    let [pointerNum, pointerCoords] = [ringmax, ringmaxCoords];
-    let [numMoves, moveIndex] = [0, 0];
-
-    const movesPerSide = Math.pow(ringmax, 0.5) - 1;
-    const moves = [[-1, 0], [0, 1], [1, 0], [0, -1]]; // left, up, right, down
-
-    while (pointerNum > num) {
-      if (numMoves >= movesPerSide) {
-        moveIndex++;
-        while (moveIndex > moves.length) moveIndex -= moves.length;
-        numMoves = 0;
-      }
-
-      pointerCoords = addArrays(pointerCoords, moves[moveIndex]);
-
-      numMoves++;
-      pointerNum--;
-    }
-
-    numberCoords = pointerCoords;
-  }
-
-  // find manhattan difference between two coords
-  const dist = Math.abs(numberCoords[0]) + Math.abs(numberCoords[1]);
-
-  return dist;
+function getDistanceToOne(input) {
+  const coords = generateCoordsByIndex(input - 1); // input is 1-based but index is 0
+  return Math.abs(coords[0]) + Math.abs(coords[1]); // manhattan distance
 }
 
-// I can't actually explain how this works
-// 0-based
-function getRingNum(num) {
-  let ringNum = Math.ceil(Math.pow(num, 0.5));
-  if (ringNum % 2 === 0) ringNum++; // if even, bump up
-  if (ringNum > 1) {
-    ringNum += 1; // go to next even number
-    ringNum = ringNum / 2; // divide by 2
+function generateCoordsByIndex(index) {
+  const moves = [[1, 0], [0, 1], [-1, 0], [0, -1]]; // right, up, left, down
+  let moveIndex = 0;
+  let ringNum = 1;
+  let pointerIndex = 0;
+  let pointerCoords = [0, 0];
+
+  while (index > pointerIndex) {
+    pointerIndex++;
+    pointerCoords = addArrays(pointerCoords, moves[moveIndex]);
+    [moveIndex, ringNum] = getNextMoveIndexAndRingNum(
+      moveIndex,
+      pointerCoords,
+      ringNum
+    );
   }
-  return ringNum - 1; // 0 index
+
+  return pointerCoords;
+}
+
+function getNextMoveIndexAndRingNum(moveIndex, pointerCoords, ringNum) {
+  if (moveIndex === 0 && pointerCoords[0] >= ringNum) return [1, ringNum];
+  if (moveIndex === 1 && pointerCoords[1] >= ringNum) return [2, ringNum];
+  if (moveIndex === 2 && pointerCoords[0] <= -ringNum) return [3, ringNum];
+  if (moveIndex === 3 && pointerCoords[1] <= -ringNum) return [0, ringNum + 1];
+  return [moveIndex, ringNum];
 }
 
 function addArrays(a, b) {
-  if (a.length !== b.length) return null; // can't add arrays of different length
-
   let sum = [];
   for (let i = 0; i < a.length; i++) {
     sum.push(a[i] + b[i]);
@@ -61,4 +39,4 @@ function addArrays(a, b) {
   return sum;
 }
 
-module.exports = distanceToOne;
+module.exports = getDistanceToOne;
