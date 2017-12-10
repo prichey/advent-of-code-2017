@@ -75,7 +75,7 @@ class Tree {
     traverseAndUpdateWeights(this.root);
   }
 
-  findImproperWeight() {
+  findProperWeightOfIncorrectlyWeightedProgram() {
     return traverseTreeToFindProperWeight(this.root);
   }
 }
