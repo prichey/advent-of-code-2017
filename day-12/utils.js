@@ -34,10 +34,6 @@ function buildGraphFromInput(input) {
     .split('\n')
     .map(inputLine => {
       const split = inputLine.split(' <-> ');
-      if (split.length !== 2) {
-        console.log('shit');
-      }
-
       const fromNode = parseInt(split[0]);
       const toNodes = split[1].split(',').map(nodeStr => parseInt(nodeStr));
 
